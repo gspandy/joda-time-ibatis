@@ -56,16 +56,15 @@ public class DateTimeTypeHandlerCallback implements TypeHandlerCallback
 		// Handle nulls
 		if (obj == null)
 		{
-			setter.setNull(Types.DATE);
+			setter.setNull(Types.TIMESTAMP);
 		}
 		// Handle the instance we want
 		else if (obj instanceof DateTime)
 		{
-			// We have no timezone with a DateTime so we are left to only use the local timezone for the java.sql.Date
-			DateTime dateMidnight = (DateTime) obj;
+			DateTime dateTime = (DateTime) obj;
 
-			// Return millis via an Instant
-			Timestamp sqlTimestamp = new Timestamp(dateMidnight.getMillis());
+			// Set millis
+			Timestamp sqlTimestamp = new Timestamp(dateTime.getMillis());
 			setter.setTimestamp(sqlTimestamp);
 		}
 		else
