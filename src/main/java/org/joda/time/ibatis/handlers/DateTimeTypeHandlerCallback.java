@@ -17,13 +17,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package intouch.joda.ibatis;
+package org.joda.time.ibatis.handlers;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import com.ibatis.sqlmap.client.extensions.ParameterSetter;
 import com.ibatis.sqlmap.client.extensions.ResultGetter;
@@ -36,16 +37,15 @@ public class DateTimeTypeHandlerCallback implements TypeHandlerCallback
 	 */
 	public Object getResult(ResultGetter getter) throws SQLException
 	{
-		// Get the java.sql.Timestamp
-		Timestamp date = getter.getTimestamp();
-
-		// Handle nulls
-		if (getter.wasNull())
+		Timestamp ts = getter.getTimestamp();
+		if (ts != null)
+		{
+			return new DateTime(ts, DateTimeZone.UTC);
+		}
+		else
+		{
 			return null;
-
-		// Create new DateTime
-		// Note: timezone info defaults to JVM timezone
-		return new DateTime(date);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -53,25 +53,14 @@ public class DateTimeTypeHandlerCallback implements TypeHandlerCallback
 	 */
 	public void setParameter(ParameterSetter setter, Object obj) throws SQLException
 	{
-		// Handle nulls
-		if (obj == null)
+		if (obj != null)
 		{
-			setter.setNull(Types.TIMESTAMP);
-		}
-		// Handle the instance we want
-		else if (obj instanceof DateTime)
-		{
-			DateTime dateTime = (DateTime) obj;
-
-			// Set millis
-			Timestamp sqlTimestamp = new Timestamp(dateTime.getMillis());
-			setter.setTimestamp(sqlTimestamp);
+			setter.setTimestamp(new Timestamp(((DateTime) obj).getMillis()));
 		}
 		else
 		{
-			throw new IllegalArgumentException("Illegal Date object");
+			setter.setNull(Types.TIMESTAMP);
 		}
-
 	}
 
 	/* (non-Javadoc)

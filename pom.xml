@@ -2,12 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>intouch</groupId>
-	<artifactId>joda-ibatis</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>joda-time</groupId>
+	<artifactId>joda-time-ibatis</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>joda-ibatis</name>
+	<name>joda-time-ibatis</name>
 	<url>https://github.com/intouchfollowup/joda-ibatis</url>
 
 	<dependencies>
