@@ -57,7 +57,7 @@ public class LocalDateTypeHandlerCallback implements TypeHandlerCallback
 		LocalDate date = (LocalDate) obj;
 		if (date != null)
 		{
-			setter.setDate(new Date(date.toDateTimeAtStartOfDay(DateTimeZone.UTC).toDate().getTime()));
+			setter.setDate(new Date(date.toDateTimeAtStartOfDay().toDate().getTime()));
 		}
 		else
 		{
